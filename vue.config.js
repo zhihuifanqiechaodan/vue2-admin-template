@@ -29,15 +29,23 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
-  // devServer: {
-  //   port: port,
-  //   open: true,
-  //   overlay: {
-  //     warnings: false,
-  //     errors: true
-  //   },
-  //   before: require('./mock/mock-server.js')
-  // },
+  devServer: {
+    port: port,
+    open: true,
+    overlay: {
+      warnings: false,
+      errors: true
+    },
+    proxy: process.env === 'mock' && { // 如果后台太菜不知道处理跨域问题，本地根据环境去切换代理跨域
+      '/api': {
+        target: 'http://www.zhihuifanqiechaodan.com:10000/mock/73', // 跨域代理地址
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
+  },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
@@ -88,7 +96,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()

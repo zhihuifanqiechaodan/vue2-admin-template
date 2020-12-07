@@ -1,4 +1,4 @@
-import { getCookieItem, setCookieItem } from '../../utils/storage-service' // get token from cookie
+import { getCookieItem, setCookieItem } from '@/utils/storage-service' // get token from cookie
 
 const state = {
     sidebar: {

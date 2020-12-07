@@ -12,6 +12,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import getService from './services/index' // 请求封装
 import './icons' // icon
 import './permission' // permission control
 
@@ -24,6 +25,8 @@ Vue.use(Element);
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
+Vue.prototype.$getService = getService
 
 Vue.config.productionTip = false
 

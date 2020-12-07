@@ -3,11 +3,12 @@ import { Message } from 'element-ui'
 import store from '@/store'
 import { getCookieItem } from './storage-service'
 
-const service = axios.create({
+const request = axios.create({
+    baseURL: process.env.VUE_APP_BASE_API,
     timeout: 1000 * 60 // request timeout
 })
 
-service.interceptors.request.use(
+request.interceptors.request.use(
     config => {
         // do something before request is sent
 
@@ -26,7 +27,7 @@ service.interceptors.request.use(
     }
 )
 
-service.interceptors.response.use(
+request.interceptors.response.use(
     /**
      * If you want to get http information such as headers or status
      * Please return  response => response
@@ -40,7 +41,6 @@ service.interceptors.response.use(
     response => {
         console.log(response);
         const res = response.data
-        // 如果返回的result不是ok
         if (!res.success) {
             Message({
                 message: res.errors[0].error_msg || 'Error',
@@ -64,4 +64,6 @@ service.interceptors.response.use(
     }
 )
 
-export default service
+export default {
+    request
+}
