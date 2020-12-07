@@ -129,11 +129,13 @@ export default {
       return res
     },
     querySearch(query) {
+      console.log('query', query);
       if (query !== '') {
         this.options = this.fuse.search(query)
       } else {
         this.options = []
       }
+      console.log('this.options', this.options);
     }
   }
 }
