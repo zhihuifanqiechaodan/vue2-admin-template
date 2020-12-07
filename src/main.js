@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import { getCookieItem } from './utils/storage-service' // get token from cookie
+
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
 import Element from 'element-ui'
@@ -21,7 +23,9 @@ import './utils/error-log' // error log
 import * as filters from './filters' // global filters
 
 
-Vue.use(Element);
+Vue.use(Element, {
+  size: getCookieItem('size') || 'medium' // set element-ui default size
+})
 
 // register global utility filters
 Object.keys(filters).forEach(key => {
