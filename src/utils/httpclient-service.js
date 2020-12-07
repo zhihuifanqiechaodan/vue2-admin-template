@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { getCookieItem } from './storage-service'
 
@@ -14,9 +14,9 @@ request.interceptors.request.use(
 
         if (store.getters.token) {
             // let each request carry token
-            // ['X-Token'] is a custom headers key
+            // ['Fanqie-Token'] is a custom headers key
             // please modify it according to the actual situation
-            config.headers['X-Token'] = getCookieItem('Admin-Toke')
+            config.headers['Fanqie-Token'] = getCookieItem('Fanqie-Token')
         }
         return config
     },
@@ -39,31 +39,45 @@ request.interceptors.response.use(
      * You can also judge the status by HTTP Status Code
      */
     response => {
-        console.log(response);
         const res = response.data
-        if (!res.success) {
+        const { code, data } = res
+        // if the custom code is not 20000, it is judged as an error.
+        if (code !== 20000) {
             Message({
-                message: res.errors[0].error_msg || 'Error',
+                message: res.message || 'Error',
                 type: 'error',
                 duration: 5 * 1000
             })
-            return false
+
+            // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
+            if (code === 50008 || code === 50012 || code === 50014) {
+                // to re-login
+                MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
+                    confirmButtonText: 'Re-Login',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    store.dispatch('user/resetToken').then(() => {
+                        location.reload()
+                    })
+                })
+            }
+            return Promise.reject(false) // error all return false
         } else {
-            return res.result
+            return data
         }
     },
     error => {
-        console.log(error.response);
-        const err = error.response.data
+        console.log('err' + error) // for debug
         Message({
-            message: `网络错误：${err.errors[0].error_msg}`,
+            message: error.message,
             type: 'error',
             duration: 5 * 1000
         })
-        return false
+        return Promise.reject(false) // error all return false
     }
 )
 
-export default {
+export {
     request
 }

@@ -12,7 +12,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import getService from './services/index' // 请求封装
+import getService from './services/index' // global request
+
 import './icons' // icon
 import './permission' // permission control
 
