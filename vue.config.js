@@ -19,12 +19,12 @@ const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 module.exports = {
   /**
    * You will need to set publicPath if you plan to deploy your site under a sub path,
-   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
-   * then publicPath should be set to "/bar/".
+   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/vue-element-admin-template/,
+   * then publicPath should be set to "/vue-element-admin-template/".
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: process.env.NODE_ENV === 'github' ? '/vue-element-admin-template/' : '/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
