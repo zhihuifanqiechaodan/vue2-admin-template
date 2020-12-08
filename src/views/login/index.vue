@@ -194,8 +194,8 @@ export default {
               path: this.redirect || "/",
               query: this.otherQuery,
             });
-            this.loading = false;
           }
+          this.loading = false;
         } else {
           console.log("error submit!!");
           return false;

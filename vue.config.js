@@ -24,8 +24,8 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/vue-element-admin-template/',
-  outputDir: 'docs', // 输出文件名字，默认还是dist, 这里修改为docs是为了部署在github上
+  publicPath: '/',
+  outputDir: 'dist', // 输出文件名字，默认还是dist, 这里修改为docs是为了部署在github上
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
@@ -38,7 +38,7 @@ module.exports = {
     },
     proxy: process.env === 'mock' && { // 如果后台太菜不知道处理跨域问题，本地根据环境去切换代理跨域
       '/api': {
-        target: 'http://www.zhihuifanqiechaodan.com:10000/mock/73', // 跨域代理地址
+        target: 'http://www.zhihuifanqiechaodan.com:9091/mock/9', // 跨域代理地址
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
