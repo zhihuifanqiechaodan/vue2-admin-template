@@ -24,8 +24,8 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: process.env.NODE_ENV === 'github' ? '/vue-element-admin-template/' : '/',
-  outputDir: 'dist',
+  publicPath: '/vue-element-admin-template/',
+  outputDir: 'docs', // 输出文件名字，默认还是dist, 这里修改为docs是为了部署在github上
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
