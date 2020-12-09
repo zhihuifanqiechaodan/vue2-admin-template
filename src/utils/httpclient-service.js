@@ -62,7 +62,7 @@ request.interceptors.response.use(
                     })
                 })
             }
-            return Promise.reject(false) // error all return false
+            return Promise.reject(new Error(res.message || 'Error'))
         } else {
             return data
         }
@@ -74,7 +74,7 @@ request.interceptors.response.use(
             type: 'error',
             duration: 5 * 1000
         })
-        return Promise.reject(false) // error all return false
+        return Promise.reject(error)
     }
 )
 

@@ -14,6 +14,8 @@ const name = defaultSettings.title || 'vue Element Admin' // page title
 // You can change the port by the following method:
 // port = 9527 npm run dev OR npm run dev --port = 9527
 const port = process.env.port || process.env.npm_config_port || 9527 // dev port
+const isMock = process.env.NODE_ENV === 'mock'
+const isDevelopment = process.env.NODE_ENV === 'development'
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -27,7 +29,7 @@ module.exports = {
   publicPath: '/',
   outputDir: 'dist', // 输出文件名字，默认还是dist, 这里修改为docs是为了部署在github上
   assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: isDevelopment,
   productionSourceMap: false,
   devServer: {
     port: port,
@@ -36,7 +38,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: process.env === 'mock' && { // 如果后台太菜不知道处理跨域问题，本地根据环境去切换代理跨域
+    proxy: isMock && { // 如果后台太菜不知道处理跨域问题，本地根据环境去切换代理跨域
       '/api': {
         target: 'http://www.zhihuifanqiechaodan.com:9091/mock/9', // 跨域代理地址
         changeOrigin: true,
@@ -69,6 +71,19 @@ module.exports = {
       }
     ])
 
+    // 开启Gzip
+    config
+      .plugin('gzip-plugin')
+      .use('compression-webpack-plugin', [{
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: /\.js$|\.html$|\.json$|\.css$|\.ttf$/,
+        threshold: 0, // 只有大小大于该值的资源会被处理
+        minRatio: 0.8, // 只有压缩率小于这个值的资源才会被处理
+        deleteOriginalAssets: true // 删除源文件
+      }])
+      .end()
+
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
 
@@ -90,7 +105,8 @@ module.exports = {
       .end()
 
     config
-      .when(process.env.NODE_ENV !== 'development',
+      .when(
+        process.env.NODE_ENV !== 'development',
         config => {
           config
             .plugin('ScriptExtHtmlWebpackPlugin')
