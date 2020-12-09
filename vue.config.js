@@ -16,6 +16,7 @@ const name = defaultSettings.title || 'vue Element Admin' // page title
 const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 const isMock = process.env.NODE_ENV === 'mock'
 const isDevelopment = process.env.NODE_ENV === 'development'
+const isProd = process.env.NODE_ENV === 'production'
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -73,16 +74,19 @@ module.exports = {
 
     // 开启Gzip
     config
-      .plugin('gzip-plugin')
-      .use('compression-webpack-plugin', [{
-        filename: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: /\.js$|\.html$|\.json$|\.css$|\.ttf$/,
-        threshold: 10240, // 只有大小大于该值的资源会被处理
-        minRatio: 0.8, // 只有压缩率小于这个值的资源才会被处理
-        deleteOriginalAssets: false // 删除源文件
-      }])
-      .end()
+      .when(isProd, config => {
+        config
+          .plugin('gzip-plugin')
+          .use('compression-webpack-plugin', [{
+            filename: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: /\.js$|\.html$|\.json$|\.css$|\.ttf$/,
+            threshold: 10240, // 只有大小大于该值的资源会被处理
+            minRatio: 0.8, // 只有压缩率小于这个值的资源才会被处理
+            deleteOriginalAssets: false // 删除源文件
+          }])
+          .end()
+      })
 
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
@@ -106,7 +110,7 @@ module.exports = {
 
     config
       .when(
-        process.env.NODE_ENV !== 'development',
+        isProd,
         config => {
           config
             .plugin('ScriptExtHtmlWebpackPlugin')
