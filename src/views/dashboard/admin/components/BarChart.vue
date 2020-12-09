@@ -3,7 +3,7 @@
 </template>
 
 <script>
-var echarts = require('echarts');
+// var echarts = require('echarts');
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
 

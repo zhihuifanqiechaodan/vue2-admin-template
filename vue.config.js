@@ -57,9 +57,33 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    externals: {
+      'vue': 'Vue',
+      'element-ui': 'ELEMENT',
+      'echarts': 'echarts'
     }
   },
   chainWebpack(config) {
+    const cdn = {
+      css: [
+        // element-ui css
+        'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
+      ],
+      js: [
+        // vue must at first!
+        'https://unpkg.com/vue/dist/vue.js',
+        // element-ui js
+        'https://unpkg.com/element-ui/lib/index.js',
+        // echart
+        'https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js'
+      ]
+    }
+    config.plugin('html')
+      .tap(args => {
+        args[0].cdn = cdn
+        return args
+      })
     // it can improve the speed of the first screen, it is recommended to turn on preload
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
