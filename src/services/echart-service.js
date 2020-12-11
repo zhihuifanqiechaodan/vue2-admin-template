@@ -7,7 +7,7 @@ import {
 /**
  * @method getEchartList echart图表数据
  */
-function getEchartList(data) {
+function getEchartList() {
     return request.get(API_ECHART + '/list')
 }
 
