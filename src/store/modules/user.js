@@ -43,8 +43,8 @@ const actions = {
     getInfo({ commit, state }) {
         return new Promise((resolve, reject) => {
             getService('UserService').getUserInfo(state.token).then(value => {
+                console.log(value);
                 const { roles, name, avatar, introduction } = value
-
                 // roles must be a non-empty array
                 if (!roles || roles.length <= 0) {
                     reject('getInfo: roles must be a non-null array!')

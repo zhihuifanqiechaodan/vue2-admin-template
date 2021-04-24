@@ -9,6 +9,9 @@ import {
  * @param {*} data 登录信息
  */
 function addUserLogin(data) {
+    return {
+        token: "token"
+    }
     return request.post(API_USER + '/login', data)
 }
 
@@ -17,6 +20,7 @@ function addUserLogin(data) {
  * @param {*} param0 token
  */
 function getUserInfo({ token }) {
+    return Promise.resolve({ roles: ["admin"], name: "番茄", avatar: "", introduction: "只会番茄炒蛋" })
     return request.get(API_USER + '/info', { params: { token } })
 }
 
