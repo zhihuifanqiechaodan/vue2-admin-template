@@ -72,7 +72,7 @@ module.exports = {
       ],
       js: [
         // vue must at first!
-        'https://unpkg.com/vue/dist/vue.js',
+        'https://cdn.jsdelivr.net/npm/vue@2.7.14',
         // element-ui js
         'https://unpkg.com/element-ui/lib/index.js',
         // echart
